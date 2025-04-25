@@ -1,13 +1,12 @@
 [phases.setup]
-# Enable Ubuntu universe repository and update apt
+base = "ubuntu:24.04"
+nixPkgs = []  # Avoid pulling in Nix packages
 cmds = [
   "apt-get update",
   "apt-get install -y software-properties-common",
   "add-apt-repository universe -y",
   "apt-get update"
 ]
-
-# Install chromium-browser and dependencies
 aptPkgs = [
   "chromium-browser",
   "ca-certificates",
@@ -43,10 +42,10 @@ aptPkgs = [
   "wget"
 ]
 
-# Set environment variables for Puppeteer
 [phases.setup.env]
 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
 PUPPETEER_EXECUTABLE_PATH = "/usr/lib/chromium-browser/chrome"
+NIX_PATH = ""  # Prevent Nix interference
 
 [phases.build]
 cmds = ["npm install"]
