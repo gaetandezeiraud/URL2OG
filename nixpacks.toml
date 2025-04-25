@@ -1,0 +1,26 @@
+[phases.setup]
+nixPkgs = [
+  "nodejs",
+  "chromium",
+  "fontconfig",
+  "freetype",
+  "gdk-pixbuf",
+  "glib",
+  "gtk3",
+  "nss",
+  "libx11",
+  "libxcomposite",
+  "libxdamage",
+  "libxext",
+  "libxrandr",
+  "libxss",
+  "libxtst",
+  "pango",
+  "cups",
+]
+
+[phases.build]
+cmds = ["npm install"]
+
+[start]
+cmd = "npm start"
