@@ -1,14 +1,15 @@
 [phases.setup]
-# Update apt sources to include contrib and non-free repositories
+# Enable Ubuntu universe repository and update apt
 cmds = [
-  "echo 'deb http://deb.debian.org/debian bookworm main contrib non-free' > /etc/apt/sources.list",
-  "echo 'deb http://deb.debian.org/debian-security bookworm-security main contrib non-free' >> /etc/apt/sources.list",
+  "apt-get update",
+  "apt-get install -y software-properties-common",
+  "add-apt-repository universe -y",
   "apt-get update"
 ]
 
-# Install ARM64-compatible Chromium and dependencies
+# Install chromium-browser and dependencies
 aptPkgs = [
-  "chromium",
+  "chromium-browser",
   "ca-certificates",
   "fonts-liberation",
   "libappindicator3-1",
@@ -45,7 +46,7 @@ aptPkgs = [
 # Set environment variables for Puppeteer
 [phases.setup.env]
 PUPPETEER_SKIP_CHROMIUM_DOWNLOAD = "true"
-PUPPETEER_EXECUTABLE_PATH = "/usr/bin/chromium"
+PUPPETEER_EXECUTABLE_PATH = "/usr/lib/chromium-browser/chrome"
 
 [phases.build]
 cmds = ["npm install"]
