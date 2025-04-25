@@ -1,13 +1,19 @@
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-core');
 const sharp = require('sharp');
 
 async function generateScreenshot(url) {
   let browser;
   try {
-    // Launch headless browser
+    // Launch headless browser with system Chromium
     browser = await puppeteer.launch({
       headless: 'new',
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      executablePath: '/usr/bin/chromium',
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage', // Helps with low-memory environments
+        '--single-process', // Reduces memory usage on ARM64
+      ],
     });
     const page = await browser.newPage();
 
@@ -28,10 +34,15 @@ async function generateScreenshot(url) {
 
     return optimizedImage;
   } catch (error) {
+    console.error('Screenshot generation failed:', error);
     throw new Error(`Failed to generate screenshot: ${error.message}`);
   } finally {
     if (browser) {
-      await browser.close();
+      try {
+        await browser.close();
+      } catch (closeError) {
+        console.error('Failed to close browser:', closeError);
+      }
     }
   }
 }
