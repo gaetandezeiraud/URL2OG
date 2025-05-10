@@ -1,5 +1,5 @@
 # Use Node.js
-FROM node:23-slim
+FROM node:24-slim
 
 # Install system dependencies and Chromium for ARM64
 RUN apt-get update && apt-get install -y \
