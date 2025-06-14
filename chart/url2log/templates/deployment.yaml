@@ -1,0 +1,50 @@
+{{- $root := . }}
+{{- $envHash := toJson $root.Values.env | sha256sum }}
+{{- $envSecretsHash := toJson $root.Values.env_secrets | sha256sum }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $root.Release.Name }}
+  namespace: {{ $root.Release.Namespace }}
+  labels:
+    app: {{ $root.Chart.Name }}
+  annotations:
+    checksum/env: "{{ $envHash }}"
+    checksum/envsecrets: "{{ $envSecretsHash }}"
+spec:
+  replicas: {{ $root.Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $root.Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $root.Release.Name }}
+      annotations:
+        checksum/env: "{{ $envHash }}"
+        checksum/envsecrets: "{{ $envSecretsHash }}"
+    spec:
+      containers:
+        - name: {{ $root.Release.Name }}
+          image: "{{ $root.Values.image.repository }}:{{ $root.Values.image.tag }}"
+          imagePullPolicy: {{ $root.Values.image.pullPolicy }}
+          env:
+{{- range $root.Values.env }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+{{- end }}
+{{- range $root.Values.env_secrets }}
+            - name: {{ .name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $root.Release.Name }}-secrets
+                  key: {{ .name }}
+{{- end }}
+          resources: {}
+          volumeMounts:
+            - name: cache
+              mountPath: /cache
+      volumes:
+        - name: cache
+          emptyDir: {}

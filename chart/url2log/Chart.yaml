@@ -1,0 +1,6 @@
+apiVersion: v2
+name: url2log
+description: A Helm chart for deploying url2log
+type: application
+version: 0.0.1
+appVersion: 0.0.1

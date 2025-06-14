@@ -1,0 +1,19 @@
+replicaCount: 2
+
+image:
+  repository: ghcr.io/gaetandezeiraud/url2og
+  tag: latest
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "256Mi"
+  requests:
+    cpu: "50m"
+    memory: "64Mi"
+
+env: 
+  - name: "ALLOWED_DOMAINS"
+    value: "dezeiraudgames.com"
+
+env_secrets: {}
