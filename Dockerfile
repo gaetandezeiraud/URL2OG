@@ -37,8 +37,8 @@ WORKDIR /app
 # Copy package.json and package-lock.json (if exists)
 COPY package*.json ./
 
-# Install production dependencies with ARM64 target
-RUN npm install --production --platform=linux --arch=arm64
+# Install production dependencies
+RUN npm install --production
 
 # Copy the application code
 COPY src ./src
