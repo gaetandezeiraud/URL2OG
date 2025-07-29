@@ -1,6 +1,6 @@
 {
     "name": "url2og",
-    "version": "1.0.2",
+    "version": "1.0.4",
     "description": "Service to generate Open Graph images from URLs",
     "main": "src/index.js",
     "scripts": {
