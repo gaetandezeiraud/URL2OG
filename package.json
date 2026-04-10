@@ -1,6 +1,6 @@
 {
     "name": "url2og",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "Service to generate Open Graph images from URLs",
     "main": "src/index.js",
     "scripts": {
@@ -9,13 +9,13 @@
       "clean": "node src/clean.js"
     },
     "dependencies": {
-      "dotenv": "^17.2.3",
+      "dotenv": "^17.4.1",
       "express": "^5.2.1",
-      "puppeteer-core": "^24.32.0",
+      "puppeteer-core": "^24.40.0",
       "sharp": "^0.34.5"
     },
     "devDependencies": {
-      "nodemon": "^3.1.11"
+      "nodemon": "^3.1.14"
     },
     "author": "",
     "license": "MIT"
