@@ -4,19 +4,22 @@
     "description": "Service to generate Open Graph images from URLs",
     "main": "src/index.js",
     "scripts": {
-      "start": "node src/index.js",
-      "dev": "nodemon src/index.js",
-      "clean": "node src/clean.js"
+        "start": "node src/index.js",
+        "dev": "nodemon src/index.js",
+        "clean": "node src/clean.js"
     },
     "dependencies": {
-      "dotenv": "^17.4.2",
-      "express": "^5.2.1",
-      "puppeteer-core": "^24.43.1",
-      "sharp": "^0.34.5"
+        "dotenv": "^17.4.2",
+        "express": "^5.2.1",
+        "puppeteer-core": "^24.43.1",
+        "sharp": "^0.35.3"
     },
     "devDependencies": {
-      "nodemon": "^3.1.14"
+        "nodemon": "^3.1.14"
     },
     "author": "",
-    "license": "MIT"
-  }
+    "license": "MIT",
+    "allowScripts": {
+        "sharp@0.34.5": true
+    }
+}
