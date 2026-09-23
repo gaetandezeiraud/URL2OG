@@ -1,7 +1,7 @@
-# Use Node.js
-FROM node:24-slim
+# Use Bun (Debian slim)
+FROM oven/bun:1-slim
 
-# Install system dependencies and Chromium for ARM64
+# Install system dependencies and Chromium
 RUN apt-get update && apt-get install -y \
     fonts-liberation \
     libasound2 \
@@ -34,17 +34,20 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (if exists)
-COPY package*.json ./
+# Copy package.json and bun.lock
+COPY package.json bun.lock ./
 
 # Install production dependencies
-RUN npm install --production
+RUN bun install --production --frozen-lockfile
 
 # Copy the application code
-COPY src ./src
+COPY --chown=bun:bun src ./src
+RUN mkdir -p cache && chown bun:bun cache
 
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Run the application
-CMD ["node", "src/index.js"]
+ENV NODE_ENV=production
+USER bun
+CMD ["bun", "src/index.js"]

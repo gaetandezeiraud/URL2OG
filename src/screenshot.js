@@ -1,13 +1,13 @@
-const puppeteer = require('puppeteer-core');
-const sharp = require('sharp');
+import puppeteer from 'puppeteer-core';
+import sharp from 'sharp';
 
-async function generateScreenshot(url) {
+export async function generateScreenshot(url) {
   let browser;
   try {
     // Launch headless browser with system Chromium
     browser = await puppeteer.launch({
-      headless: 'new',
-      executablePath: '/usr/bin/chromium',
+      headless: true,
+      executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium',
       args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
@@ -47,4 +47,3 @@ async function generateScreenshot(url) {
   }
 }
 
-module.exports = { generateScreenshot };

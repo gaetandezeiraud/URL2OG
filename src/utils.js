@@ -1,4 +1,4 @@
-function validateUrl(url) {
+export function validateUrl(url) {
     try {
       // Ensure URL starts with http:// or https://
       if (!/^https?:\/\//i.test(url)) {
@@ -11,7 +11,7 @@ function validateUrl(url) {
     }
   }
   
-  function validateDomain(url) {
+  export function validateDomain(url) {
     const allowedDomains = process.env.ALLOWED_DOMAINS
       ? process.env.ALLOWED_DOMAINS.split(',').map((d) => d.trim().toLowerCase())
       : [];
@@ -30,4 +30,3 @@ function validateUrl(url) {
     }
   }
   
-  module.exports = { validateUrl, validateDomain };

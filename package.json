@@ -1,25 +1,19 @@
 {
     "name": "url2og",
-    "version": "1.0.8",
+    "version": "1.1.0",
     "description": "Service to generate Open Graph images from URLs",
+    "type": "module",
     "main": "src/index.js",
     "scripts": {
-        "start": "node src/index.js",
-        "dev": "nodemon src/index.js",
-        "clean": "node src/clean.js"
+        "start": "bun src/index.js",
+        "dev": "bun --watch src/index.js",
+        "clean": "bun src/clean.js",
+        "test": "bun test"
     },
     "dependencies": {
-        "dotenv": "^17.4.2",
-        "express": "^5.2.1",
-        "puppeteer-core": "^24.43.1",
-        "sharp": "^0.35.3"
-    },
-    "devDependencies": {
-        "nodemon": "^3.1.14"
+        "puppeteer-core": "^25.11.0",
+        "sharp": "^0.35.4"
     },
     "author": "",
-    "license": "MIT",
-    "allowScripts": {
-        "sharp@0.34.5": true
-    }
+    "license": "MIT"
 }

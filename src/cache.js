@@ -1,14 +1,13 @@
-const fs = require('fs').promises;
-const path = require('path');
-const crypto = require('crypto');
+import { mkdir, unlink } from 'node:fs/promises';
+import path from 'node:path';
 
 // Cache directory
-const CACHE_DIR = path.join(__dirname, '../cache');
+export const CACHE_DIR = process.env.CACHE_DIR || path.join(import.meta.dir, '../cache');
 
 // Ensure cache directory exists
-async function ensureCacheDir() {
+export async function ensureCacheDir() {
   try {
-    await fs.mkdir(CACHE_DIR, { recursive: true });
+    await mkdir(CACHE_DIR, { recursive: true });
   } catch (error) {
     console.error('Error creating cache directory:', error);
   }
@@ -16,34 +15,42 @@ async function ensureCacheDir() {
 
 // Generate MD5 hash of URL for unique filename
 function getCacheKey(url) {
-  return crypto.createHash('md5').update(url).digest('hex');
+  return new Bun.CryptoHasher('md5').update(url).digest('hex');
 }
 
 // Get cache file path
-function getCacheFilePath(url) {
+export function getCacheFilePath(url) {
   const key = getCacheKey(url);
   return path.join(CACHE_DIR, `${key}.png`);
 }
 
 // Check if cached image exists
-async function getCachedImage(url) {
-  const filePath = getCacheFilePath(url);
-  try {
-    await fs.access(filePath); // Check if file exists
-    return await fs.readFile(filePath); // Return file buffer
-  } catch {
+export async function getCachedImage(url) {
+  const file = Bun.file(getCacheFilePath(url));
+  if (!(await file.exists())) {
     return null; // Cache miss
   }
+  return await file.bytes(); // Return file contents
 }
 
 // Save image to cache
-async function saveToCache(url, imageBuffer) {
-  const filePath = getCacheFilePath(url);
+export async function saveToCache(url, imageBuffer) {
   try {
-    await fs.writeFile(filePath, imageBuffer);
+    await Bun.write(getCacheFilePath(url), imageBuffer);
   } catch (error) {
     console.error('Error saving to cache:', error);
   }
 }
 
-module.exports = { ensureCacheDir, getCachedImage, saveToCache };
+// Delete cached image, returns false if it did not exist
+export async function deleteCachedImage(url) {
+  try {
+    await unlink(getCacheFilePath(url));
+    return true;
+  } catch (error) {
+    if (error.code === 'ENOENT') {
+      return false;
+    }
+    throw error;
+  }
+}
