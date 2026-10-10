@@ -1,6 +1,0 @@
-[test]
-preload = ["./test/setup.js"]
-coverage = true
-coverageThreshold = { lines = 0.9, functions = 0.9 }
-coverageSkipTestFiles = true
-coveragePathIgnorePatterns = ["test/**"]

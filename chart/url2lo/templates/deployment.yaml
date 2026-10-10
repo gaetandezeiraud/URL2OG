@@ -41,10 +41,5 @@ spec:
                   name: {{ $root.Release.Name }}-secrets
                   key: {{ .name }}
 {{- end }}
-          resources: {}
-          volumeMounts:
-            - name: cache
-              mountPath: /cache
-      volumes:
-        - name: cache
-          emptyDir: {}
+          resources:
+            {{- toYaml $root.Values.resources | nindent 12 }}

@@ -1,0 +1,19 @@
+[package]
+name = "url2og"
+version = "2.0.0"
+edition = "2024"
+description = "Service to generate Open Graph images from URLs"
+license = "MIT"
+
+[dependencies]
+md5 = "0.8"
+tiny_http = "0.12"
+url = "2.5"
+
+[profile.release]
+strip = true
+lto = true
+opt-level = "s"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+libc = "0.2"
